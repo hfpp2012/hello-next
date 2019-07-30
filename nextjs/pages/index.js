@@ -18,6 +18,10 @@ const useStyles = makeStyles(theme => ({
   },
   title: {
     margin: theme.spacing(4, 0, 2)
+  },
+  img: {
+    width: 300,
+    height: 170
   }
 }));
 
@@ -40,7 +44,11 @@ function Index(props) {
                       href="/playlists/[id]"
                       as={`/playlists/${playlist.id}`}
                     >
-                      <ListItemText primary={playlist.name} />
+                      <img
+                        src={playlist.image_url}
+                        alt={playlist.name}
+                        className={classes.img}
+                      />
                     </Link>
                   </ListItem>
                 ))}
