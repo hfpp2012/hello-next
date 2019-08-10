@@ -1,8 +1,9 @@
-import Layout from "../layouts/basic";
-import Link from "../src/Link";
+import Layout from "../../layouts/basic";
+import Link from "../../src/Link";
 import { makeStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import fetch from "isomorphic-unfetch";
@@ -24,7 +25,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function Index(props) {
+function Playlist(props) {
   const classes = useStyles();
   return (
     <Layout>
@@ -32,21 +33,24 @@ function Index(props) {
         <Grid container spacing={2}>
           <Grid item xs={12} md={6}>
             <Typography variant="h6" className={classes.title}>
-              所有课程
+              {props.playlist.name} - 视频列表
             </Typography>
             <div className={classes.demo}>
               <List>
-                {props.playlists.map(playlist => (
-                  <ListItem key={playlist.id}>
+                {props.playlist.movies.map(movie => (
+                  <ListItem key={movie.id}>
                     <Link
-                      href="/playlists/[id]"
-                      as={`/playlists/${playlist.id}`}
+                      href={`https://www.qiuzhi99.com/movies/${
+                        movie.url_name
+                      }/${movie.id}.html`}
+                      target="_blank"
                     >
-                      <img src={playlist.image_url} className={classes.img} />
+                      <ListItemText primary={movie.title} />
                     </Link>
                   </ListItem>
                 ))}
               </List>
+              <Link href="/">back to home</Link>
             </div>
           </Grid>
         </Grid>
@@ -55,13 +59,14 @@ function Index(props) {
   );
 }
 
-Index.getInitialProps = async function() {
-  const res = await fetch("https://www.qiuzhi99.com/api/v1/playlists");
+Playlist.getInitialProps = async function(context) {
+  const { id } = context.query;
+  const res = await fetch(`https://www.qiuzhi99.com/api/v1/playlists/${id}`);
   const data = await res.json();
 
   return {
-    playlists: data
+    playlist: data
   };
 };
 
-export default Index;
+export default Playlist;
