@@ -10,7 +10,7 @@ export default function App({ children }) {
           href="https://bootswatch.com/4/cyborg/bootstrap.min.css"
           type="text/css"
           media="screen"
-          charset="utf-8"
+          charSet="utf-8"
         />
       </Head>
       <div className="container">{children}</div>
