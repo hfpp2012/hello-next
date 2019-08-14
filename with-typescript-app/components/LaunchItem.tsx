@@ -1,11 +1,21 @@
-import React from "react";
 import classNames from "classnames";
 import Moment from "react-moment";
 import Link from "next/link";
 
-export default function LaunchItem({
+type Launch = {
+  flight_number: string;
+  launch_date_local: string;
+  launch_success: boolean;
+  mission_name: string;
+};
+
+type Props = {
+  launch: Launch;
+};
+
+const LaunchItem: React.FunctionComponent<Props> = ({
   launch: { flight_number, launch_date_local, launch_success, mission_name }
-}) {
+}) => {
   return (
     <div className="card card-body mb-3">
       <div className="row">
@@ -26,14 +36,13 @@ export default function LaunchItem({
           </p>
         </div>
         <div className="col-md-3">
-          <Link
-            href={`/launch/[flight_number]`}
-            as={`/launch/${flight_number}`}
-          >
+          <Link href={`/launch/${flight_number}`}>
             <a className="btn btn-secondary">Launch Details</a>
           </Link>
         </div>
       </div>
     </div>
   );
-}
+};
+
+export default LaunchItem;
